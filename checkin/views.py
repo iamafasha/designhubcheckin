@@ -62,6 +62,7 @@ def recheckin(request):
             registered_visitor = Checkins(visitor=visitor, temperature=temp)
             registered_visitor.save()
     return redirect('index')
+    
 def logout_view(request):
     logout(request)
     return redirect('index')

@@ -15,6 +15,7 @@ class Visitors(models.Model):
 
 class Checkins(models.Model):
     visitor = models.ForeignKey(Visitors, on_delete=models.CASCADE)
+    #use floatfield
     temperature = models.IntegerField()
     created_date = models.DateTimeField(default=timezone.now)
     def checkin(self):
