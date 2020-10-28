@@ -1,0 +1,104 @@
+{% extends 'checkin/layout/base.html' %}
+
+{% block content %}
+
+
+<!-- Large modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-add-user-modal-lg">Add New
+    Vistor</button>
+
+<div class="modal fade bd-add-user-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                </ul>
+                {% endif %}
+
+                <form action="{% url 'checkin' %}" method="post">
+                    {% csrf_token %}
+                    {{addform}}
+                    <br>
+                    <div class="form-group">
+                        <button type="submit" name="" id="" class="btn btn-primary">Add Vistor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<br />
+<br />
+{% if visitors_list %}
+<div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Search Users </span>
+        </div>
+        <input class="form-control" aria-label="Search Visitors Here" type="text" id="myInput" onkeyup="myFunction()"
+            placeholder="Search for names..">
+        <div class="input-group-append">
+        </div>
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="myUL">
+            <tr class="thead-dark">
+                <th>TIME IN</th>
+                <th>Full Name</th>
+                <th>Company Name</th>
+                <th>Telephone Number</th>
+                <th>Temperature</th>
+                <th>Re Checkin</th>
+            </tr>
+            {% for visitor in visitors_list %}
+
+            <tr>
+                <td>{{visitor.created_date}}</td>
+                <td>{{visitor.visitor.name}}</td>
+                <td>{{visitor.visitor.company}}</td>
+                <td>{{visitor.visitor.telephone_number}}</td>
+                <td>{{visitor.temperature}}</td>
+                <td>
+                    <form action="{% url 'recheckin' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="visitor_id" value="{{visitor.visitor.id}}">
+                        <input required class="form-control" placeholder="New temperature" name="temp" size=3
+                            type="number">
+                        <button class="form-control btn btn-primary" type="submit">RE CHECKIN</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endif %}
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.querySelectorAll('tr:not(:first-child)')
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("td")[1];
+            txtValue = a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+{% endblock %}
