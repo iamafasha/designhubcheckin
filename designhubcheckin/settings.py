@@ -24,7 +24,7 @@ SECRET_KEY = 'phlok_6grcr@1!j0v*5xy%f+6(p@fx!un)p!0&xc8!e#6751m='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['designhubcheckin.herokuapp.com']
 
 
 # Application definition
