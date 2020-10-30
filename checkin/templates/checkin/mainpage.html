@@ -39,14 +39,17 @@
 <br />
 {% if visitors_list %}
 <div>
+
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text">Search Users </span>
+            <select  class="custom-select" id="searcg-form-input" name="searcg-form-input">
+                <option value="1" selected>Filter By (Name)</option>
+                <option value="2">Company</option>
+                <option value="3">Telphone Number</option>
+              </select>
         </div>
-        <input class="form-control" aria-label="Search Visitors Here" type="text" id="myInput" onkeyup="myFunction()"
-            placeholder="Search for names..">
-        <div class="input-group-append">
-        </div>
+        <input type="text" class="form-control" id="search-vistors" aria-label="Search Visitors Here" type="search"
+            placeholder="Search Vistors Here">
     </div>
 
 
@@ -84,21 +87,26 @@
 </div>
 {% endif %}
 <script>
-    function myFunction() {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.querySelectorAll('tr:not(:first-child)')
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("td")[1];
-            txtValue = a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
+    document.addEventListener('DOMContentLoaded', function () {
+        var search_input = document.querySelector('#search-vistors');
+        search_input.addEventListener('keyup', function () {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("search-vistors");
+            var search_by = document.getElementById("searcg-form-input").value;
+            console.log(search_by)
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.querySelectorAll('tr:not(:first-child)')
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("td")[search_by];
+                txtValue = a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
             }
-        }
-    }
+        });
+    })
 </script>
 {% endblock %}
