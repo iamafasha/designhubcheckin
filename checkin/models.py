@@ -6,7 +6,7 @@ class Visitors(models.Model):
     name = models.CharField(max_length=200)
     identification_number = models.CharField(max_length=200, blank=True)
     company = models.CharField(max_length=200)
-    telephone_number = models.IntegerField()
+    telephone_number = models.CharField(max_length=14)
       
 
     def __str__(self):
