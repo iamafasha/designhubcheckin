@@ -6,10 +6,10 @@ from django.contrib.auth import authenticate ,logout ,login
 from django.http import HttpResponse
 from .forms import LoginForm, AddForm
 from .models import Visitors, Checkins
-# Create your views here.
 
 
 def index(request):
+
     if request.user.is_authenticated:
         add_form = AddForm()
         visitors_list = Checkins.objects.all().order_by('-created_date')
@@ -31,7 +31,7 @@ def index(request):
                     return redirect('index')
                 else:
                     messages.add_message(request, messages.ERROR,
-                                        'Password might not be okay.')
+                                        'Wrong username or password')
         context = {"form": form}
         return render(request, 'checkin/index.html', context)
 
@@ -44,23 +44,30 @@ def checkin(request):
             company = form.cleaned_data.get('company')
             identification_number = form.cleaned_data.get('identification_number')
             telephone_number = form.cleaned_data.get('telephone_number')
-            visitor = Visitors(name=name, company=company, identification_number=identification_number,telephone_number=telephone_number)
-            visitor.save()
-            registered_visitor = Checkins(visitor=visitor, temperature=temperature)
-            registered_visitor.save()
+            try:
+                visitor = Visitors(name=name, company=company, identification_number=identification_number,telephone_number=telephone_number)
+                visitor.save()
+                registered_visitor = Checkins(visitor=visitor, temperature=temperature)
+                registered_visitor.save()
+                messages.add_message(request, messages.SUCCESS,'information saved')
+            except expression as identifier:
+                messages.add_message(request, messages.ERROR,'Something wrong happened')
     return redirect('index')
 
 
 def recheckin(request):
     if request.method == 'POST':
-        messages.add_message(request, messages.SUCCESS,'Added A new User.')
         temp=request.POST.get("temp")
         user_id=request.POST.get("visitor_id")
         print(user_id)
         visitor = Visitors.objects.get(pk=user_id)
         if visitor is not None:
-            registered_visitor = Checkins(visitor=visitor, temperature=temp)
-            registered_visitor.save()
+            try:
+                registered_visitor = Checkins(visitor=visitor, temperature=temp)
+                registered_visitor.save()
+                messages.add_message(request, messages.SUCCESS,'information saved')
+            except expression as identifier:
+                messages.add_message(request, messages.ERROR,'Something wrong happened')
     return redirect('index')
     
 def logout_view(request):

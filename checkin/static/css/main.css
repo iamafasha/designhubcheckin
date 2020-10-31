@@ -1,0 +1,8 @@
+ul.messages{
+  list-style: none;
+  padding: unset;
+}
+
+select#search-form-input {
+    border-radius: unset;
+}

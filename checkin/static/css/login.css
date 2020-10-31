@@ -1,0 +1,31 @@
+*{
+    text-decoration: unset;
+    outline: unset;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    padding: unset !important;
+    margin: unset !important;
+    max-width: 100% !important;
+}
+
+.container form{
+    display: flex;
+    flex-direction: column;
+    min-width: 40%;
+}
+
+nav.navbar.navbar-dark.bg-dark.page-header {
+    background-color: unset !important;
+}
+.container form input{
+    margin-top: 20px ;
+}
+.container form label{
+    display: none;
+}
