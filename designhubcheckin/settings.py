@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 
 from django.contrib.messages import constants as messages
+import mimetypes
 
+mimetypes.add_type("text/css", ".css", True)
 MESSAGE_TAGS = {
     messages.ERROR: '',
     40: 'danger',
